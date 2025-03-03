@@ -1,0 +1,225 @@
+/* Modern Style for Toronto Community Site */
+:root {
+  --primary-color: #34495E; /* Dark blue-gray for headers */
+  --secondary-color: #1ABC9C; /* Turquoise for buttons and accents */
+  --accent-color: #E74C3C;    /* Red-orange for highlights */
+  --background-color: #F5F5F5; /* Light gray page background */
+  --text-color: #2C3E50;      /* Dark blue for main text */
+  --light-text: #FFFFFF;      /* White for text on dark backgrounds */
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+header {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  padding: 1rem 0;
+  box-shadow: var(--box-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  color: var(--light-text);
+  font-weight: 500;
+  transition: color 0.3s ease;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--border-radius);
+}
+
+header nav ul li a:hover {
+  color: var(--secondary-color);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+main {
+  padding: 2rem 0;
+}
+
+/* Use a clean white background for content sections */
+section {
+  background-color: #FFFFFF;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+section h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--secondary-color);
+}
+
+#home {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(rgba(52, 73, 94, 0.8), rgba(52, 73, 94, 0.8)), 
+              url('https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&q=80&w=1000');
+  background-size: cover;
+  background-position: center;
+  color: var(--light-text);
+  border-radius: var(--border-radius);
+}
+
+#home h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--light-text);
+  border-bottom: none;
+}
+
+#home p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.items, .events {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: #FFFFFF;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-img {
+  height: 180px;
+  background-color: #ddd;
+  background-size: cover;
+  background-position: center;
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-price {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.card-date {
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+#login {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+label {
+  font-weight: 500;
+}
+
+input {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+button {
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+  padding: 0.8rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #16A085;
+}
+
+footer {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  header .container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  header nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  #home {
+    padding: 2rem 1rem;
+  }
+  
+  #home h2 {
+    font-size: 2rem;
+  }
+}
