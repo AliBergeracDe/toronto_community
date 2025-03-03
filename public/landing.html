@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Dashboard - Toronto Community</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-hands-helping"></i> Toronto Community</h1>
+      <nav>
+        <ul>
+          <li><a href="/landing.html">Dashboard</a></li>
+          <li><a href="/marketPlace.html">Market Place</a></li>
+          <li><a href="/events.html">Events</a></li>
+          <li><a href="/logout">Logout</a></li>
+          <li><a href="#">EN/TÜRK</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="welcome">
+      <h2 id="welcomeMsg">Welcome, [User]!</h2>
+      <p>This is your personal dashboard. Here you can view recommended items, upcoming events, and more curated content just for you.</p>
+    </section>
+    <!-- Add additional personalized sections here as needed -->
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Toronto Community. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    // Retrieve the user's name from localStorage and update the welcome message
+    const userName = localStorage.getItem('userName') || 'User';
+    document.getElementById('welcomeMsg').innerText = `Welcome, ${userName}!`;
+  </script>
+</body>
+</html>

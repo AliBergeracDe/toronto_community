@@ -10,14 +10,14 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      
       const result = await response.json();
       
-      if (response.ok) {
-        alert('Login successful!');
-        // Redirect or set up session as needed.
+      if (response.ok && result.success) {
+        // Save the user's name for personalization
+        localStorage.setItem('userName', result.user.name);
+        // Redirect to landing page without showing an alert
+        window.location.href = '/landing.html';
       } else {
-        // Handle 401 or other errors by showing the server message
         alert('Login failed: ' + result.error);
       }
     } catch (err) {
@@ -25,5 +25,4 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       alert('Login failed due to a network error.');
     }
   });
-  
   

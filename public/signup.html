@@ -1,32 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Toronto Community - Sign Up</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toronto Community - Sign Up</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
-    <nav>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
+      <nav>
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/marketPlace.html">Items</a></li>
-            <li><a href="/events.html">Events</a></li>
-            <li><a href="/signup.html">Sign Up</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/marketPlace.html">Market Place</a></li>
+          <li><a href="/events.html">Events</a></li>
+          <li><a href="/signup.html">Sign Up</a></li>
+          <li><a href="#">EN/TÜRK</a></li>
         </ul>
-    </nav>
-    <h1>Sign Up</h1>
-    <p>Create an account to join the community.</p>
-    <form id="signupForm">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br><br>
-
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br><br>
-
-        <input type="submit" value="Sign Up">
-    </form>
-    <script src="script.js"></script>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <section id="signup">
+      <h2>Sign Up</h2>
+      <p>Create an account to join the community.</p>
+      <form id="signupForm">
+        <div>
+          <label for="email"><i class="fas fa-envelope"></i> Email:</label>
+          <input type="email" id="email" name="email" required placeholder="Enter your email">
+        </div>
+        <div>
+          <label for="password"><i class="fas fa-lock"></i> Password:</label>
+          <input type="password" id="password" name="password" required placeholder="Create a password">
+        </div>
+        <div>
+          <label for="name"><i class="fas fa-user"></i> Name:</label>
+          <input type="text" id="name" name="name" required placeholder="Enter your full name">
+        </div>
+        <button type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Toronto Yardımlaşma ve Dayanışma Sitesi. All Rights Reserved.</p>
+  </footer>
+  <script src="signup.js"></script>
 </body>
 </html>
