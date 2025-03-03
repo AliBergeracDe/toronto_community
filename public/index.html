@@ -1,83 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toronto Yardımlaşma ve Dayanışma Sitesi</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toronto Yardımlaşma ve Dayanışma Sitesi</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/marketPlace.html">Market Place</a></li>
-                    <li><a href="/events.html">Events</a></li>
-                    <li><a href="/signup.html">Sign Up</a></li>
-                    <li><a href="#">EN/TÜRK</a></li>
-                </ul>
-            </nav>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/marketPlace.html">Market Place</a></li>
+          <li><a href="/events.html">Events</a></li>
+          <li><a href="/signup.html">Register</a></li>
+          <li><a href="/signin.html">Login</a></li>
+          <li><a href="#">EN/TÜRK</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Home Section -->
+    <section id="home">
+      <h2>Welcome to the Toronto Community</h2>
+      <p>Connect with fellow community members, discover great deals on items, and join exciting local events all in one place.</p>
+      <div style="margin-top: 20px;">
+        <button onclick="location.href='#sell'">Browse Marketplace</button>
+        <button onclick="location.href='#events'" style="background-color: var(--accent-color); margin-left: 10px;">Upcoming Events</button>
+      </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section id="sell">
+      <h2>Marketplace</h2>
+      <div class="items">
+        <div class="card">
+          <div class="card-img" style="background-color: #f3d7ca;"></div>
+          <div class="card-content">
+            <h3 class="card-title">Turkish Coffee Set</h3>
+            <p>Traditional handmade copper coffee set with 4 cups</p>
+            <p class="card-price">$75</p>
+          </div>
         </div>
-    </header>
+        <div class="card">
+          <div class="card-img" style="background-color: #c8dbbe;"></div>
+          <div class="card-content">
+            <h3 class="card-title">Living Room Furniture</h3>
+            <p>Gently used sofa and coffee table set</p>
+            <p class="card-price">$350</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img" style="background-color: #deedf0;"></div>
+          <div class="card-content">
+            <h3 class="card-title">Winter Jacket</h3>
+            <p>Brand new women's winter jacket, size M</p>
+            <p class="card-price">$120</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <main class="container">
-        <!-- Home Section -->
-        <section id="home">
-            <h2>Welcome to the Toronto Community</h2>
-            <p>Connect with fellow community members, discover great deals on items, and join exciting local events all in one place.</p>
-            <div style="margin-top: 20px;">
-                <button onclick="location.href='#sell'">Browse Marketplace</button>
-                <button onclick="location.href='#events'" style="background-color: var(--accent-color); margin-left: 10px;">Upcoming Events</button>
-            </div>
-        </section>
-
-        <!-- Registration Section (Existing) -->
-        <section id="login">
-            <h2>Join Our Community</h2>
-            <form id="registerForm">
-                <div>
-                    <label for="email"><i class="fas fa-envelope"></i> Email:</label>
-                    <input type="email" id="email" name="email" required placeholder="Enter your email">
-                </div>
-                <div>
-                    <label for="password"><i class="fas fa-lock"></i> Password:</label>
-                    <input type="password" id="password" name="password" required placeholder="Create a password">
-                </div>
-                <div>
-                    <label for="name"><i class="fas fa-user"></i> Name:</label>
-                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
-                </div>
-                <button type="submit"><i class="fas fa-user-plus"></i> Register</button>
-                <p style="text-align: center; margin-top: 1rem;">Don't have an account? Register above.</p>
-            </form>
-        </section>
-
-        <!-- Sign In Section (New) -->
-        <section id="signin">
-            <h2>Sign In</h2>
-            <form id="loginForm">
-                <div>
-                    <label for="loginEmail"><i class="fas fa-envelope"></i> Email:</label>
-                    <input type="email" id="loginEmail" name="email" required placeholder="Enter your email">
-                </div>
-                <div>
-                    <label for="loginPassword"><i class="fas fa-lock"></i> Password:</label>
-                    <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
-                </div>
-                <button type="submit"><i class="fas fa-sign-in-alt"></i> Sign In</button>
-            </form>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Toronto Yardımlaşma ve Dayanışma Sitesi. All Rights Reserved.</p>
-    </footer>
-
-    <!-- Include client-side scripts -->
-    <script src="signup.js"></script>
-    <script src="login.js"></script>
-</body>
-</html>
+    <!-- Events Section -->
+    <section id="events">
+      <h2>Community Events</h2>
+      <div class="events">
+        <div class="card">
+          <div class="card-img" style="background-color: #f1c0e8;"></div>
+          <div class="card-content">
+            <h3 class="card-title">Turkish Cultural Night</h3>
+            <p>Join us for an evening of traditional music, dance, and food</p>
+            <p class="card-date">March 15, 2025 • 6:00 PM</p>
+            <p>Community Center, Toronto</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img" style="background-color: #a3c4f3;"></div>
+          <div class="card-content">
+            <h3 class="card-title">Newcomers Meetup</h3>
+            <p>Welcome gathering for new community members</p>
+            <p class="card-date">March 20, 2025 • 2:00 PM</p>
+            <p>Riverdale Park East</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-img" style="background-color: #cfbaf0;"></div>
+          <div cla
