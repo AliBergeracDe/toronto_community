@@ -6,13 +6,14 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
   const name = document.getElementById('name').value;
 
   try {
-    const response = await fetch('/register', {
+    const response = await fetch('https://toronto-community.onrender.com/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, name })
     });
     const result = await response.json();
-    if (result.success) {
+
+    if (response.ok && result.success) {
       alert('Registration successful!');
     } else {
       alert('Registration failed: ' + result.error);
@@ -22,4 +23,3 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     alert('Registration failed due to a network error.');
   }
 });
-
