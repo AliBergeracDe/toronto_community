@@ -2,7 +2,7 @@
 
 const path = require('path');
 const express = require('express');
-const { Pool } = require('pg');  // <-- PostgreSQL client
+const { Pool } = require('pg');  // PostgreSQL client
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -16,13 +16,26 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname));
 
+// Trim environment variables (to remove accidental spaces)
+const dbHost = process.env.DB_HOST ? process.env.DB_HOST.trim() : '';
+const dbUser = process.env.DB_USER ? process.env.DB_USER.trim() : '';
+const dbPassword = process.env.DB_PASSWORD ? process.env.DB_PASSWORD.trim() : '';
+const dbName = process.env.DB_NAME ? process.env.DB_NAME.trim() : '';
+const dbPort = process.env.DB_PORT ? process.env.DB_PORT.trim() : 5432;
+
+// Log out the variables for debugging (mask sensitive info if needed)
+console.log('DB_HOST:', dbHost);
+console.log('DB_USER:', dbUser);
+console.log('DB_NAME:', dbName);
+console.log('DB_PORT:', dbPort);
+
 // Create a connection pool for PostgreSQL
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT || 5432, // Default Postgres port
+  host: dbHost,
+  user: dbUser,
+  password: dbPassword,
+  database: dbName,
+  port: dbPort,
 });
 
 // Initialize the database tables if they don't exist
