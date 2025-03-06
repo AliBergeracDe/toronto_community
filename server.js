@@ -6,36 +6,49 @@ const { Pool } = require('pg'); // PostgreSQL client
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer'); // Multer for file uploads
+const multer = require('multer'); // For file uploads
 
-// Configure Multer to store files in the "uploads" folder
-const upload = multer({ dest: 'uploads/' });
+// Configure Multer to store files in the "uploads" folder.
+// This configuration preserves the original file extension.
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    // Generate a unique filename with the original extension
+    const ext = path.extname(file.originalname);
+    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9) + ext;
+    cb(null, uniqueName);
+  }
+});
+const upload = multer({ storage });
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
+// Note: bodyParser.json() works for JSON, but multer handles multipart/form-data.
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname));
 
-// Serve files from the "uploads" folder as static assets
+// Serve uploaded files from the "uploads" folder as static assets.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Trim environment variables to remove accidental spaces
+// Read and trim environment variables.
 const dbHost = process.env.DB_HOST ? process.env.DB_HOST.trim() : '';
 const dbUser = process.env.DB_USER ? process.env.DB_USER.trim() : '';
 const dbPassword = process.env.DB_PASSWORD ? process.env.DB_PASSWORD.trim() : '';
 const dbName = process.env.DB_NAME ? process.env.DB_NAME.trim() : '';
 const dbPort = process.env.DB_PORT ? process.env.DB_PORT.trim() : 5432;
 
-// Debug output for environment variables
+// Debug output (remove or mask sensitive info in production)
 console.log('DB_HOST:', dbHost);
 console.log('DB_USER:', dbUser);
 console.log('DB_NAME:', dbName);
 console.log('DB_PORT:', dbPort);
 
-// Create a connection pool for PostgreSQL
+// Create PostgreSQL connection pool.
 const pool = new Pool({
   host: dbHost,
   user: dbUser,
@@ -44,10 +57,10 @@ const pool = new Pool({
   port: dbPort,
 });
 
-// Initialize the database tables if they don't exist
+// Initialize the database tables (run at startup).
 async function initializeDatabase() {
   try {
-    // Create 'users' table
+    // Users table.
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -58,7 +71,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create 'items' table with a "category" column.
+    // Items table with "category" column.
     await pool.query(`
       CREATE TABLE IF NOT EXISTS items (
         id SERIAL PRIMARY KEY,
@@ -73,7 +86,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create 'events' table
+    // Events table.
     await pool.query(`
       CREATE TABLE IF NOT EXISTS events (
         id SERIAL PRIMARY KEY,
@@ -92,11 +105,10 @@ async function initializeDatabase() {
     console.error('Error initializing database:', err);
   }
 }
-
 initializeDatabase();
 
 // ---------------------
-//  User Registration Endpoint
+// User Registration Endpoint
 // ---------------------
 app.post('/register', async (req, res) => {
   const { email, password, name } = req.body;
@@ -123,7 +135,7 @@ app.post('/register', async (req, res) => {
 });
 
 // ---------------------
-//  User Sign-In Endpoint
+// User Sign-In Endpoint
 // ---------------------
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
@@ -152,7 +164,7 @@ app.post('/login', async (req, res) => {
 });
 
 // ---------------------
-//  Post an Ad Endpoint (with file upload using Multer)
+// Post an Ad Endpoint (with file upload via Multer)
 // ---------------------
 app.post('/post-ad', upload.single('photo'), async (req, res) => {
   const { title, category, description, price } = req.body;
@@ -160,7 +172,7 @@ app.post('/post-ad', upload.single('photo'), async (req, res) => {
     return res.status(400).json({ success: false, error: 'Title, category, description, and price are required' });
   }
   
-  // If a file was uploaded, construct the image URL
+  // Build image URL if file was uploaded.
   let imageUrl = null;
   if (req.file) {
     imageUrl = `/uploads/${req.file.filename}`;
@@ -182,7 +194,7 @@ app.post('/post-ad', upload.single('photo'), async (req, res) => {
 });
 
 // ---------------------
-//  GET Items Endpoint (optionally filtered by category)
+// GET Items Endpoint (optionally filtered by category)
 // ---------------------
 app.get('/items', async (req, res) => {
   try {
@@ -202,7 +214,7 @@ app.get('/items', async (req, res) => {
 });
 
 // ---------------------
-//  Start the Server
+// Start the Server
 // ---------------------
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

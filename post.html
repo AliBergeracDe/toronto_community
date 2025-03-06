@@ -65,5 +65,34 @@
   <footer>
     <p>&copy; 2025 Toronto Yardımlaşma ve Dayanışma Sitesi. All Rights Reserved.</p>
   </footer>
+  
+  <script>
+    document.getElementById('postForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const category = form.category.value; // e.g., "auto", "furniture", etc.
+      
+      // Use FormData for file uploads.
+      const formData = new FormData(form);
+      
+      try {
+        const res = await fetch('https://toronto-community.onrender.com/post-ad', {
+          method: 'POST',
+          body: formData
+        });
+        const result = await res.json();
+        if (res.ok && result.success) {
+          alert('Ad posted successfully!');
+          // Redirect to the category page (e.g., auto.html if category is "auto")
+          window.location.href = category + '.html';
+        } else {
+          alert('Failed to post ad: ' + result.error);
+        }
+      } catch (err) {
+        console.error('Error posting ad:', err);
+        alert('Network error. Please try again.');
+      }
+    });
+  </script>
 </body>
 </html>
