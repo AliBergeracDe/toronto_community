@@ -22,14 +22,14 @@ app.use(express.static(__dirname));
 // Serve files from the "uploads" folder as static assets
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Trim environment variables (to remove accidental spaces)
+// Trim environment variables to remove accidental spaces
 const dbHost = process.env.DB_HOST ? process.env.DB_HOST.trim() : '';
 const dbUser = process.env.DB_USER ? process.env.DB_USER.trim() : '';
 const dbPassword = process.env.DB_PASSWORD ? process.env.DB_PASSWORD.trim() : '';
 const dbName = process.env.DB_NAME ? process.env.DB_NAME.trim() : '';
 const dbPort = process.env.DB_PORT ? process.env.DB_PORT.trim() : 5432;
 
-// Debug output (remove in production)
+// Debug output for environment variables
 console.log('DB_HOST:', dbHost);
 console.log('DB_USER:', dbUser);
 console.log('DB_NAME:', dbName);
@@ -59,7 +59,6 @@ async function initializeDatabase() {
     `);
 
     // Create 'items' table with a "category" column.
-    // If the table exists without this column, drop it or run an ALTER TABLE.
     await pool.query(`
       CREATE TABLE IF NOT EXISTS items (
         id SERIAL PRIMARY KEY,
@@ -161,7 +160,7 @@ app.post('/post-ad', upload.single('photo'), async (req, res) => {
     return res.status(400).json({ success: false, error: 'Title, category, description, and price are required' });
   }
   
-  // If a file was uploaded, build its URL
+  // If a file was uploaded, construct the image URL
   let imageUrl = null;
   if (req.file) {
     imageUrl = `/uploads/${req.file.filename}`;
@@ -183,11 +182,18 @@ app.post('/post-ad', upload.single('photo'), async (req, res) => {
 });
 
 // ---------------------
-//  GET Items Endpoint (to list ads)
+//  GET Items Endpoint (optionally filtered by category)
 // ---------------------
 app.get('/items', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM items ORDER BY created_at DESC');
+    let query = 'SELECT * FROM items';
+    let values = [];
+    if (req.query.category) {
+      query += ' WHERE category = $1';
+      values.push(req.query.category);
+    }
+    query += ' ORDER BY created_at DESC';
+    const result = await pool.query(query, values);
     res.json({ success: true, items: result.rows });
   } catch (err) {
     console.error('Error retrieving items:', err);
