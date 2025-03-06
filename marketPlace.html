@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- No base tag for Render -->
+  <!-- No base tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toronto Community - Market Place</title>
   <link rel="stylesheet" href="style.css">
@@ -38,22 +38,16 @@
         <li><a href="wear.html">Wear</a></li>
         <li><a href="other.html">Other</a></li>
       </ul>
+      <div class="post-ad-button">
+        <a href="post.html">Post an Ad</a>
+      </div>
     </aside>
     
     <!-- Items Section -->
     <section id="sell" class="items-section">
-      <h2>Marketplace</h2>
+      <h2>Marketplace Listings</h2>
       <div class="items">
-        <!-- Example item card -->
-        <div class="card">
-          <div class="card-img" style="background-color: #f3d7ca;"></div>
-          <div class="card-content">
-            <h3 class="card-title">Turkish Coffee Set</h3>
-            <p>Traditional handmade copper coffee set with 4 cups</p>
-            <p class="card-price">$75</p>
-          </div>
-        </div>
-        <!-- Add additional item cards as needed -->
+        <!-- Items will be dynamically loaded here -->
       </div>
     </section>
   </main>
@@ -61,5 +55,40 @@
   <footer>
     <p>&copy; 2025 Toronto Yardımlaşma ve Dayanışma Sitesi. All Rights Reserved.</p>
   </footer>
+  
+  <script>
+    async function loadItems() {
+      try {
+        const res = await fetch('https://toronto-community.onrender.com/items');
+        const data = await res.json();
+        if (data.success) {
+          const itemsContainer = document.querySelector('.items');
+          itemsContainer.innerHTML = '';
+          data.items.forEach(item => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+              <div class="card-img">
+                ${ item.image_url ? `<img src="${item.image_url}" alt="${item.title}">` : '' }
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">${item.title}</h3>
+                <p>${item.description}</p>
+                <p class="card-price">$${item.price}</p>
+                <p class="card-category">Category: ${item.category}</p>
+              </div>
+            `;
+            itemsContainer.appendChild(card);
+          });
+        } else {
+          console.error('Failed to load items:', data.error);
+        }
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadItems);
+  </script>
 </body>
 </html>
