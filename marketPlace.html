@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Remove or comment out the base tag -->
-  <!-- <base href="/toronto_community/"> -->
+  <!-- No base tag for Render -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toronto Community - Market Place</title>
   <link rel="stylesheet" href="style.css">
@@ -26,8 +25,23 @@
     </div>
   </header>
   
-  <main class="container">
-    <section id="sell">
+  <main class="container marketplace">
+    <!-- Sidebar for categories -->
+    <aside class="sidebar">
+      <h3>Categories</h3>
+      <ul class="category-menu">
+        <li><a href="#">Auto</a></li>
+        <li><a href="#">Rental</a></li>
+        <li><a href="#">Furniture</a></li>
+        <li><a href="#">Electronics</a></li>
+        <li><a href="#">Tools</a></li>
+        <li><a href="#">Wear</a></li>
+        <li><a href="#">Other</a></li>
+      </ul>
+    </aside>
+    
+    <!-- Items Section -->
+    <section id="sell" class="items-section">
       <h2>Marketplace</h2>
       <div class="items">
         <!-- Example item card -->

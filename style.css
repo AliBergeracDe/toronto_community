@@ -223,3 +223,55 @@ footer {
     font-size: 2rem;
   }
 }
+
+/* Marketplace page specific styling */
+.marketplace {
+  display: flex;
+  gap: 20px;
+}
+
+/* Sidebar styling */
+.sidebar {
+  flex: 0 0 200px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.sidebar h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+.category-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-menu li {
+  margin-bottom: 0.5rem;
+}
+
+.category-menu li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease;
+}
+
+.category-menu li a:hover {
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+}
+
+/* Items section styling */
+.items-section {
+  flex: 1;
+}
+
