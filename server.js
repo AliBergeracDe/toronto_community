@@ -8,14 +8,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const multer = require('multer'); // For file uploads
 
-// Configure Multer to store files in the "uploads" folder.
-// This configuration preserves the original file extension.
+// Configure Multer to store files in the "uploads" folder with the original extension preserved.
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    // Generate a unique filename with the original extension
     const ext = path.extname(file.originalname);
     const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9) + ext;
     cb(null, uniqueName);
@@ -27,28 +25,27 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
-// Note: bodyParser.json() works for JSON, but multer handles multipart/form-data.
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname));
 
-// Serve uploaded files from the "uploads" folder as static assets.
+// Serve files from the "uploads" folder as static assets.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Read and trim environment variables.
+// Trim environment variables to remove accidental spaces
 const dbHost = process.env.DB_HOST ? process.env.DB_HOST.trim() : '';
 const dbUser = process.env.DB_USER ? process.env.DB_USER.trim() : '';
 const dbPassword = process.env.DB_PASSWORD ? process.env.DB_PASSWORD.trim() : '';
 const dbName = process.env.DB_NAME ? process.env.DB_NAME.trim() : '';
 const dbPort = process.env.DB_PORT ? process.env.DB_PORT.trim() : 5432;
 
-// Debug output (remove or mask sensitive info in production)
+// Debug output for environment variables (mask sensitive data in production)
 console.log('DB_HOST:', dbHost);
 console.log('DB_USER:', dbUser);
 console.log('DB_NAME:', dbName);
 console.log('DB_PORT:', dbPort);
 
-// Create PostgreSQL connection pool.
+// Create a connection pool for PostgreSQL
 const pool = new Pool({
   host: dbHost,
   user: dbUser,
@@ -57,10 +54,10 @@ const pool = new Pool({
   port: dbPort,
 });
 
-// Initialize the database tables (run at startup).
+// Initialize the database tables if they don't exist
 async function initializeDatabase() {
   try {
-    // Users table.
+    // Create 'users' table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -71,7 +68,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Items table with "category" column.
+    // Create 'items' table with a "category" column.
     await pool.query(`
       CREATE TABLE IF NOT EXISTS items (
         id SERIAL PRIMARY KEY,
@@ -86,7 +83,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Events table.
+    // Create 'events' table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS events (
         id SERIAL PRIMARY KEY,
@@ -164,7 +161,7 @@ app.post('/login', async (req, res) => {
 });
 
 // ---------------------
-// Post an Ad Endpoint (with file upload via Multer)
+// Post an Ad Endpoint (with file upload using Multer)
 // ---------------------
 app.post('/post-ad', upload.single('photo'), async (req, res) => {
   const { title, category, description, price } = req.body;
@@ -172,7 +169,7 @@ app.post('/post-ad', upload.single('photo'), async (req, res) => {
     return res.status(400).json({ success: false, error: 'Title, category, description, and price are required' });
   }
   
-  // Build image URL if file was uploaded.
+  // Build image URL if file was uploaded
   let imageUrl = null;
   if (req.file) {
     imageUrl = `/uploads/${req.file.filename}`;
@@ -209,6 +206,23 @@ app.get('/items', async (req, res) => {
     res.json({ success: true, items: result.rows });
   } catch (err) {
     console.error('Error retrieving items:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ---------------------
+// GET Item Details Endpoint (fetch a single ad by id)
+// ---------------------
+app.get('/item/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query('SELECT * FROM items WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Item not found' });
+    }
+    res.json({ success: true, item: result.rows[0] });
+  } catch (err) {
+    console.error('Error retrieving item:', err);
     res.status(500).json({ success: false, error: err.message });
   }
 });

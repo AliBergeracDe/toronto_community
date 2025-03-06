@@ -29,9 +29,7 @@
     <div class="post-ad-button">
       <a href="post.html">Post an Ad</a>
     </div>
-    <div class="items">
-      <!-- Tools ads will be loaded here -->
-    </div>
+    <div class="items"></div>
   </main>
   
   <footer>
@@ -60,7 +58,10 @@
                 <p class="card-category">Category: ${item.category}</p>
               </div>
             `;
-            itemsContainer.appendChild(card);
+            const link = document.createElement('a');
+            link.href = `ad.html?id=${item.id}`;
+            link.appendChild(card);
+            itemsContainer.appendChild(link);
           });
         } else {
           console.error('Failed to load items:', data.error);

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Details - Toronto Community</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="marketPlace.html">Market Place</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="signup.html">Register</a></li>
+          <li><a href="signin.html">Login</a></li>
+          <li><a href="#">EN/TÜRK</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <main class="container">
+    <div id="ad-details">
+      <!-- Ad details will be loaded here -->
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Toronto Yardımlaşma ve Dayanışma Sitesi. All Rights Reserved.</p>
+  </footer>
+  
+  <script>
+    // Function to get query parameters
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    
+    async function loadAdDetails() {
+      const id = getQueryParam('id');
+      if (!id) {
+        document.getElementById('ad-details').innerHTML = '<p>No ad selected.</p>';
+        return;
+      }
+      
+      try {
+        const res = await fetch(`https://toronto-community.onrender.com/item/${id}`);
+        const data = await res.json();
+        if (data.success) {
+          const ad = data.item;
+          document.getElementById('ad-details').innerHTML = `
+            <div class="ad-detail-card">
+              <div class="ad-detail-img">
+                ${ ad.image_url ? `<img src="${ad.image_url}" alt="${ad.title}">` : '' }
+              </div>
+              <div class="ad-detail-content">
+                <h2>${ad.title}</h2>
+                <p>${ad.description}</p>
+                <p><strong>Price:</strong> $${ad.price}</p>
+                <p><strong>Category:</strong> ${ad.category}</p>
+                <p><em>Posted on: ${new Date(ad.created_at).toLocaleString()}</em></p>
+              </div>
+            </div>
+          `;
+        } else {
+          document.getElementById('ad-details').innerHTML = '<p>Failed to load ad details.</p>';
+        }
+      } catch (error) {
+        console.error('Error fetching ad details:', error);
+        document.getElementById('ad-details').innerHTML = '<p>Error loading ad details.</p>';
+      }
+    }
+    
+    window.addEventListener('DOMContentLoaded', loadAdDetails);
+  </script>
+</body>
+</html>
