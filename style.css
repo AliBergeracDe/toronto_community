@@ -275,3 +275,22 @@ footer {
   flex: 1;
 }
 
+.post-ad-button {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.post-ad-button a {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: var(--light-text);
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease;
+}
+
+.post-ad-button a:hover {
+  background-color: #16A085;
+}
+
