@@ -32,6 +32,19 @@
         <input type="text" id="title" name="title" placeholder="Enter a title" required>
       </div>
       <div>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+          <option value="">Select a Category</option>
+          <option value="auto">Auto</option>
+          <option value="rental">Rental</option>
+          <option value="furniture">Furniture</option>
+          <option value="electronics">Electronics</option>
+          <option value="tools">Tools</option>
+          <option value="wear">Wear</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div>
         <label for="description">Description:</label>
         <textarea id="description" name="description" placeholder="Describe your item" rows="5" required></textarea>
       </div>

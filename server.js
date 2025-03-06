@@ -7,7 +7,6 @@ const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-// Create the Express app
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -16,14 +15,14 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname));
 
-// Trim environment variables (to remove accidental spaces)
+// Trim environment variables to remove accidental spaces
 const dbHost = process.env.DB_HOST ? process.env.DB_HOST.trim() : '';
 const dbUser = process.env.DB_USER ? process.env.DB_USER.trim() : '';
 const dbPassword = process.env.DB_PASSWORD ? process.env.DB_PASSWORD.trim() : '';
 const dbName = process.env.DB_NAME ? process.env.DB_NAME.trim() : '';
 const dbPort = process.env.DB_PORT ? process.env.DB_PORT.trim() : 5432;
 
-// Log out the variables for debugging (mask sensitive info if needed)
+// Debug output for environment variables
 console.log('DB_HOST:', dbHost);
 console.log('DB_USER:', dbUser);
 console.log('DB_NAME:', dbName);
@@ -52,12 +51,13 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create 'items' table
+    // Create 'items' table with a new "category" column
     await pool.query(`
       CREATE TABLE IF NOT EXISTS items (
         id SERIAL PRIMARY KEY,
-        user_id INT NOT NULL,
+        user_id INT,
         title VARCHAR(255) NOT NULL,
+        category VARCHAR(50) NOT NULL,
         description TEXT,
         price DECIMAL(10, 2) NOT NULL,
         image_url VARCHAR(255),
@@ -94,16 +94,11 @@ initializeDatabase();
 // ---------------------
 app.post('/register', async (req, res) => {
   const { email, password, name } = req.body;
-
   if (!email || !password || !name) {
     return res.status(400).json({ success: false, error: 'All fields are required' });
   }
-
   try {
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Insert the new user
     const queryText = `
       INSERT INTO users (email, password, name)
       VALUES ($1, $2, $3)
@@ -111,11 +106,9 @@ app.post('/register', async (req, res) => {
     `;
     const values = [email, hashedPassword, name];
     await pool.query(queryText, values);
-
     res.status(201).json({ success: true, message: 'User registered successfully!' });
   } catch (err) {
     console.error('Error during registration:', err);
-    // 23505 is the Postgres error code for unique_violation
     if (err.code === '23505') {
       return res.status(409).json({ success: false, error: 'Email already exists' });
     }
@@ -128,39 +121,52 @@ app.post('/register', async (req, res) => {
 // ---------------------
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     return res.status(400).json({ success: false, error: 'Email and password are required' });
   }
-
   try {
-    // Find user by email
     const { rows } = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (rows.length === 0) {
       return res.status(401).json({ success: false, error: 'Invalid email or password' });
     }
-
     const user = rows[0];
-
-    // Compare the provided password with the hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ success: false, error: 'Invalid email or password' });
     }
-
-    // If successful
     res.json({
       success: true,
       message: 'Login successful',
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email
-      }
+      user: { id: user.id, name: user.name, email: user.email }
     });
   } catch (err) {
     console.error('Error during login:', err);
     res.status(500).json({ success: false, error: 'Database error' });
+  }
+});
+
+// ---------------------
+//  Post an Ad Endpoint
+// ---------------------
+// This endpoint accepts a new ad posting. It expects title, category, description, price,
+// and optionally image_url (which can be a URL or handled later via file upload middleware).
+app.post('/post-ad', async (req, res) => {
+  const { title, category, description, price, image_url } = req.body;
+  if (!title || !category || !description || !price) {
+    return res.status(400).json({ success: false, error: 'Title, category, description, and price are required' });
+  }
+  try {
+    const queryText = `
+      INSERT INTO items (title, category, description, price, image_url)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id
+    `;
+    const values = [title, category, description, price, image_url || null];
+    const result = await pool.query(queryText, values);
+    res.status(201).json({ success: true, message: 'Ad posted successfully!', adId: result.rows[0].id });
+  } catch (err) {
+    console.error('Error posting ad:', err);
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
