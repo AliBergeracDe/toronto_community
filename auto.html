@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- No base tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toronto Community - Auto Listings</title>
   <link rel="stylesheet" href="style.css">
@@ -10,7 +11,9 @@
 <body>
   <header>
     <div class="container">
-      <h1><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
+      <h1>
+        <i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma
+      </h1>
       <nav>
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -29,8 +32,9 @@
     <div class="post-ad-button">
       <a href="post.html">Post an Ad</a>
     </div>
+    <!-- Container for dynamically loaded cards -->
     <div class="items">
-      <!-- Auto ads will be loaded here -->
+      <!-- Cards will be inserted here by JavaScript -->
     </div>
   </main>
   
@@ -45,10 +49,11 @@
         const data = await res.json();
         if (data.success) {
           const itemsContainer = document.querySelector('.items');
-          itemsContainer.innerHTML = '';
+          itemsContainer.innerHTML = ''; // Clear any existing content
           data.items.forEach(item => {
             const card = document.createElement('div');
             card.classList.add('card');
+            // Use the updated card structure so the image appears on top and text below
             card.innerHTML = `
               <div class="card-img">
                 ${ item.image_url ? `<img src="${item.image_url}" alt="${item.title}">` : '' }
