@@ -6,6 +6,10 @@ const { Pool } = require('pg');  // PostgreSQL client
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const multer = require('multer');  // Multer for file uploads
+
+// Configure multer to store files in the "uploads" folder
+const upload = multer({ dest: 'uploads/' });
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,6 +18,9 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname));
+
+// Serve uploaded files from the "uploads" folder
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Trim environment variables to remove accidental spaces
 const dbHost = process.env.DB_HOST ? process.env.DB_HOST.trim() : '';
@@ -51,7 +58,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create 'items' table with a new "category" column
+    // Create 'items' table with a "category" column
     await pool.query(`
       CREATE TABLE IF NOT EXISTS items (
         id SERIAL PRIMARY KEY,
@@ -86,7 +93,6 @@ async function initializeDatabase() {
   }
 }
 
-// Call the initialization function at startup
 initializeDatabase();
 
 // ---------------------
@@ -148,20 +154,26 @@ app.post('/login', async (req, res) => {
 // ---------------------
 //  Post an Ad Endpoint
 // ---------------------
-// This endpoint accepts a new ad posting. It expects title, category, description, price,
-// and optionally image_url (which can be a URL or handled later via file upload middleware).
-app.post('/post-ad', async (req, res) => {
-  const { title, category, description, price, image_url } = req.body;
+// This endpoint now uses Multer to handle file uploads.
+app.post('/post-ad', upload.single('photo'), async (req, res) => {
+  const { title, category, description, price } = req.body;
   if (!title || !category || !description || !price) {
     return res.status(400).json({ success: false, error: 'Title, category, description, and price are required' });
   }
+  
+  // If a file was uploaded, get its URL (accessible under /uploads/)
+  let imageUrl = null;
+  if (req.file) {
+    imageUrl = `/uploads/${req.file.filename}`;
+  }
+  
   try {
     const queryText = `
       INSERT INTO items (title, category, description, price, image_url)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING id
     `;
-    const values = [title, category, description, price, image_url || null];
+    const values = [title, category, description, price, imageUrl];
     const result = await pool.query(queryText, values);
     res.status(201).json({ success: true, message: 'Ad posted successfully!', adId: result.rows[0].id });
   } catch (err) {
