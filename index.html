@@ -82,29 +82,25 @@
 
     // Function to update the text content of all elements based on the selected language.
     function setLanguage(lang) {
-      // Update header title and navigation links.
       document.getElementById('siteTitle').textContent = translations[lang].siteTitle;
       document.getElementById('navHome').textContent = translations[lang].navHome;
       document.getElementById('navMarketplace').textContent = translations[lang].navMarketplace;
       document.getElementById('navEvents').textContent = translations[lang].navEvents;
       document.getElementById('navSignup').textContent = translations[lang].navSignup;
       document.getElementById('navSignin').textContent = translations[lang].navSignin;
-      // Update hero section.
       document.getElementById('headline').textContent = translations[lang].headline;
       document.getElementById('subheadline').textContent = translations[lang].subheadline;
       document.getElementById('btnMarketplace').textContent = translations[lang].btnMarketplace;
       document.getElementById('btnEvents').textContent = translations[lang].btnEvents;
-      // Update footer.
       document.getElementById('footerText').innerHTML = translations[lang].footerText;
-      // Save preference.
       localStorage.setItem('language', lang);
     }
 
-    // Set up event listeners for the language buttons.
+    // Set up event listeners for language buttons.
     document.getElementById('enBtn').addEventListener('click', () => setLanguage('en'));
     document.getElementById('trBtn').addEventListener('click', () => setLanguage('tr'));
 
-    // Set the language based on the saved preference or default to Turkish.
+    // Load saved language preference or default to Turkish.
     const savedLang = localStorage.getItem('language') || 'tr';
     setLanguage(savedLang);
   </script>

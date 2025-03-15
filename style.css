@@ -65,6 +65,7 @@ header nav ul li a {
   color: var(--light-text);
   border-radius: var(--border-radius);
   position: relative;
+  min-height: 100vh; /* Ensures the section covers the full viewport height */
 }
 
 /* Language switcher styling */
