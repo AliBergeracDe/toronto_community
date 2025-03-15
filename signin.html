@@ -5,9 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toronto Community - Sign In</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+  <style>
+    /* Make the page fill the viewport so the footer is pushed to the bottom */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1; /* Takes up remaining space, pushing footer down */
+    }
+  </style>
 </head>
 <body>
+  <!-- HEADER -->
   <header>
     <div class="container">
       <h1><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
@@ -24,6 +42,7 @@
     </div>
   </header>
   
+  <!-- MAIN CONTENT -->
   <main class="container">
     <section id="signin">
       <h2>Sign In</h2>
@@ -37,16 +56,4 @@
           <label for="loginPassword"><i class="fas fa-lock"></i> Password:</label>
           <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
         </div>
-        <button type="submit"><i class="fas fa-sign-in-alt"></i> Sign In</button>
-      </form>
-    </section>
-  </main>
-  
-  <footer>
-    <p>&copy; 2025 Toronto Yardımlaşma ve Dayanışma Sitesi. All Rights Reserved.</p>
-  </footer>
-  
-  <script src="login.js"></script>
-</body>
-</html>
-
+        <button type="submi
