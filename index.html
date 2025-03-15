@@ -12,15 +12,15 @@
   <!-- HEADER -->
   <header>
     <div class="container">
-      <h1><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
+      <h1 id="siteTitle"><i class="fas fa-hands-helping"></i> Toronto Yardımlaşma ve Dayanışma</h1>
       <nav>
         <ul>
-          <li><a href="index.html">Ana Sayfa</a></li>
-          <li><a href="marketPlace.html">Pazar Yeri</a></li>
-          <li><a href="events.html">Etkinlikler</a></li>
-          <li><a href="signup.html">Kayıt Ol</a></li>
-          <li><a href="signin.html">Giriş Yap</a></li>
-          <li><a href="#">EN/TÜRK</a></li>
+          <li><a href="index.html" id="navHome">Ana Sayfa</a></li>
+          <li><a href="marketPlace.html" id="navMarketplace">Pazar Yeri</a></li>
+          <li><a href="events.html" id="navEvents">Etkinlikler</a></li>
+          <li><a href="signup.html" id="navSignup">Kayıt Ol</a></li>
+          <li><a href="signin.html" id="navSignin">Giriş Yap</a></li>
+          <li><a href="#" id="navLang">EN/TÜRK</a></li>
         </ul>
       </nav>
     </div>
@@ -28,7 +28,7 @@
 
   <!-- HOME SECTION -->
   <section id="home">
-    <!-- Language toggle buttons (positioned in the top-right of the section) -->
+    <!-- Language toggle buttons positioned at top-right of section -->
     <div class="language-switcher">
       <span class="language-btn" id="enBtn">EN</span>
       <span class="language-btn" id="trBtn">TR</span>
@@ -38,39 +38,73 @@
       Topluluk üyeleriyle bağlantı kurun, harika fırsatları keşfedin ve heyecan verici yerel etkinliklere katılın.
     </p>
     <div class="home-buttons">
-      <button onclick="location.href='marketPlace.html'">Pazar Yerine Göz At</button>
-      <button onclick="location.href='events.html'">Yaklaşan Etkinlikler</button>
+      <button onclick="location.href='marketPlace.html'" id="btnMarketplace">Pazar Yerine Göz At</button>
+      <button onclick="location.href='events.html'" id="btnEvents">Yaklaşan Etkinlikler</button>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>&copy; 2025 Toronto Yardımlaşma ve Dayanışma Platformu.</p>
+    <p id="footerText">&copy; 2025 Toronto Yardımlaşma ve Dayanışma Platformu.</p>
   </footer>
 
   <!-- LANGUAGE SWITCHER SCRIPT -->
   <script>
+    // Translation strings for various elements on the page.
     const translations = {
       tr: {
+        siteTitle: "Toronto Yardımlaşma ve Dayanışma",
+        navHome: "Ana Sayfa",
+        navMarketplace: "Pazar Yeri",
+        navEvents: "Etkinlikler",
+        navSignup: "Kayıt Ol",
+        navSignin: "Giriş Yap",
         headline: "Toronto Topluluğuna Hoş Geldiniz",
-        subheadline: "Topluluk üyeleriyle bağlantı kurun, harika fırsatları keşfedin ve heyecan verici yerel etkinliklere katılın."
+        subheadline: "Topluluk üyeleriyle bağlantı kurun, harika fırsatları keşfedin ve heyecan verici yerel etkinliklere katılın.",
+        btnMarketplace: "Pazar Yerine Göz At",
+        btnEvents: "Yaklaşan Etkinlikler",
+        footerText: "&copy; 2025 Toronto Yardımlaşma ve Dayanışma Platformu."
       },
       en: {
+        siteTitle: "Toronto Community",
+        navHome: "Home",
+        navMarketplace: "Market Place",
+        navEvents: "Events",
+        navSignup: "Sign Up",
+        navSignin: "Sign In",
         headline: "Welcome to the Toronto Community",
-        subheadline: "Connect with fellow community members, discover great deals, and join exciting local events—all in one place."
+        subheadline: "Connect with fellow community members, discover great deals, and join exciting local events—all in one place.",
+        btnMarketplace: "Browse Marketplace",
+        btnEvents: "Upcoming Events",
+        footerText: "&copy; 2025 Toronto Community Platform."
       }
     };
 
+    // Function to update the text content of all elements based on the selected language.
     function setLanguage(lang) {
+      // Update header title and navigation links.
+      document.getElementById('siteTitle').textContent = translations[lang].siteTitle;
+      document.getElementById('navHome').textContent = translations[lang].navHome;
+      document.getElementById('navMarketplace').textContent = translations[lang].navMarketplace;
+      document.getElementById('navEvents').textContent = translations[lang].navEvents;
+      document.getElementById('navSignup').textContent = translations[lang].navSignup;
+      document.getElementById('navSignin').textContent = translations[lang].navSignin;
+      // Update hero section.
       document.getElementById('headline').textContent = translations[lang].headline;
       document.getElementById('subheadline').textContent = translations[lang].subheadline;
+      document.getElementById('btnMarketplace').textContent = translations[lang].btnMarketplace;
+      document.getElementById('btnEvents').textContent = translations[lang].btnEvents;
+      // Update footer.
+      document.getElementById('footerText').innerHTML = translations[lang].footerText;
+      // Save preference.
       localStorage.setItem('language', lang);
     }
 
+    // Set up event listeners for the language buttons.
     document.getElementById('enBtn').addEventListener('click', () => setLanguage('en'));
     document.getElementById('trBtn').addEventListener('click', () => setLanguage('tr'));
 
-    // Set language based on saved preference (default to Turkish)
+    // Set the language based on the saved preference or default to Turkish.
     const savedLang = localStorage.getItem('language') || 'tr';
     setLanguage(savedLang);
   </script>
