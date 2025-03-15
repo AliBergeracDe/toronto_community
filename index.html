@@ -1,62 +1,12 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toronto Topluluğu - Ana Sayfa</title>
   <link rel="stylesheet" href="style.css">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-  <style>
-    /* Basic styling for demonstration */
-    body { font-family: Arial, sans-serif; margin: 0; }
-    header { background: #34495E; color: #fff; padding: 1rem; }
-    header .container { display: flex; align-items: center; justify-content: space-between; }
-    header nav ul { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; }
-    header nav ul li a { color: #fff; text-decoration: none; }
-    /* HERO SECTION */
-    #hero {
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                  url('https://images.unsplash.com/photo-1604513081518-73fdcc64c13c?auto=format&fit=crop&w=1500&q=80')
-                  center/cover no-repeat;
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #fff;
-    }
-    .hero-content { max-width: 600px; }
-    .hero-buttons { margin-top: 1rem; }
-    .hero-buttons button {
-      margin: 0 0.5rem;
-      padding: 0.8rem 1.2rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #1ABC9C;
-      color: #fff;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .hero-buttons button:hover { background-color: #16a085; }
-    /* Language toggle buttons */
-    .language-btn {
-      cursor: pointer;
-      padding: 5px 10px;
-      margin: 0.5rem;
-      background-color: #f1f1f1;
-      border-radius: 5px;
-      display: inline-block;
-    }
-    /* Footer styling */
-    footer {
-      background: #34495E;
-      color: #fff;
-      text-align: center;
-      padding: 1rem 0;
-    }
-  </style>
 </head>
 <body>
   <!-- HEADER -->
@@ -76,22 +26,20 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
-  <section id="hero">
-    <div class="hero-content">
-      <!-- Language toggle buttons -->
-      <div>
-        <span class="language-btn" id="enBtn">EN</span>
-        <span class="language-btn" id="trBtn">TR</span>
-      </div>
-      <h1 id="headline">Toronto Topluluğuna Hoş Geldiniz</h1>
-      <p id="subheadline">
-        Topluluk üyeleriyle bağlantı kurun, harika fırsatları keşfedin ve heyecan verici yerel etkinliklere katılın.
-      </p>
-      <div class="hero-buttons">
-        <button onclick="location.href='marketPlace.html'">Pazar Yerine Göz At</button>
-        <button onclick="location.href='events.html'">Yaklaşan Etkinlikler</button>
-      </div>
+  <!-- HOME SECTION -->
+  <section id="home">
+    <!-- Language toggle buttons (positioned in the top-right of the section) -->
+    <div class="language-switcher">
+      <span class="language-btn" id="enBtn">EN</span>
+      <span class="language-btn" id="trBtn">TR</span>
+    </div>
+    <h1 id="headline">Toronto Topluluğuna Hoş Geldiniz</h1>
+    <p id="subheadline">
+      Topluluk üyeleriyle bağlantı kurun, harika fırsatları keşfedin ve heyecan verici yerel etkinliklere katılın.
+    </p>
+    <div class="home-buttons">
+      <button onclick="location.href='marketPlace.html'">Pazar Yerine Göz At</button>
+      <button onclick="location.href='events.html'">Yaklaşan Etkinlikler</button>
     </div>
   </section>
 
@@ -122,7 +70,7 @@
     document.getElementById('enBtn').addEventListener('click', () => setLanguage('en'));
     document.getElementById('trBtn').addEventListener('click', () => setLanguage('tr'));
 
-    // Default to Turkish if no preference is saved
+    // Set language based on saved preference (default to Turkish)
     const savedLang = localStorage.getItem('language') || 'tr';
     setLanguage(savedLang);
   </script>
