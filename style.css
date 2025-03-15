@@ -1,10 +1,10 @@
 /* Root variables */
 :root {
-  --primary-color: #34495E;       /* Dark blue-gray for headers */
-  --secondary-color: #1ABC9C;     /* Turquoise for buttons and accents */
-  --accent-color: #E74C3C;        /* Red-orange for highlights */
-  --background-color: #F5F5F5;    /* Light gray page background */
-  --light-text: #FFFFFF;          /* White for text on dark backgrounds */
+  --primary-color: #34495E;
+  --secondary-color: #1ABC9C;
+  --accent-color: #E74C3C;
+  --background-color: #F5F5F5;
+  --light-text: #FFFFFF;
   --border-radius: 8px;
   --box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
@@ -163,7 +163,7 @@ header nav ul li a:hover {
 /* Items grid layout - 4 columns on large screens */
 .items, .events {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns by default */
+  grid-template-columns: repeat(4, 1fr); /* 4 columns on large screens */
   gap: 2rem;
   margin-top: 1rem;
 }
@@ -250,15 +250,50 @@ footer {
   margin-top: 2rem;
 }
 
-/* Make Sign In and Sign Up forms bigger */
+/* MAKE SIGN-IN AND SIGN-UP FORMS BIGGER */
 #signin form,
 #signup form {
-  max-width: 500px;
+  max-width: 550px;      /* Increase form container width */
   margin: 2rem auto;
   background: #fff;
   padding: 2rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
+}
+
+#signin form label,
+#signup form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+#signin form input,
+#signup form input {
+  width: 100%;
+  font-size: 1rem;       /* Increase font size for bigger text area */
+  padding: 0.8rem;       /* Increase padding for bigger input field */
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  outline: none;
+}
+
+#signin form button,
+#signup form button {
+  font-size: 1rem;
+  padding: 0.8rem 1.2rem;
+  background-color: var(--secondary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#signin form button:hover,
+#signup form button:hover {
+  background-color: #16a085;
 }
 
 /* Responsive adjustments */
@@ -269,4 +304,12 @@ footer {
   }
   header nav ul {
     flex-wrap: wrap;
-    j
+    justify-content: center;
+  }
+  #home {
+    padding: 2rem 1rem;
+  }
+  #home h1 {
+    font-size: 2rem;
+  }
+}
