@@ -160,12 +160,29 @@ header nav ul li a:hover {
   color: var(--light-text);
 }
 
-/* Items grid layout */
+/* Items grid layout - 4 columns on large screens */
 .items, .events {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* 4 columns by default */
   gap: 2rem;
   margin-top: 1rem;
+}
+
+/* Responsive columns for smaller screens */
+@media (max-width: 1200px) {
+  .items, .events {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .items, .events {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .items, .events {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Card styling for each item */
@@ -221,7 +238,7 @@ header nav ul li a:hover {
   transition: background-color 0.3s ease;
 }
 .post-ad-button a:hover {
-  background-color: #16a085;
+  background-color: #16A085;
 }
 
 /* FOOTER */
@@ -233,6 +250,17 @@ footer {
   margin-top: 2rem;
 }
 
+/* Make Sign In and Sign Up forms bigger */
+#signin form,
+#signup form {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   header .container {
@@ -241,12 +269,4 @@ footer {
   }
   header nav ul {
     flex-wrap: wrap;
-    justify-content: center;
-  }
-  #home {
-    padding: 2rem 1rem;
-  }
-  #home h1 {
-    font-size: 2rem;
-  }
-}
+    j
