@@ -313,3 +313,8 @@ footer {
     font-size: 2rem;
   }
 }
+
+body.signup {
+  background: url('/uploads/streetCar.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
